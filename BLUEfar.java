@@ -10,7 +10,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 /**
- * Created by aparikh1 on 11/1/2017.
+ * Created by GM on 11/1/2017.
+ * Program name : Blue Far
+ * Purpose : This Autonomous program is from Blue Far
  */
 
 @Autonomous(name="BLUEfar1", group="Linear Opmode")
@@ -23,8 +25,8 @@ public class BLUEfar extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
-    //private DcMotor armDrive1 = null;
-    //private DcMotor armDrive2 = null;
+    private DcMotor armDrive1 = null;
+    private DcMotor armDrive2 = null;
     private Servo servotest;
     private ColorSensor colorSensor=null;
     private DcMotor backmotorleft=null;
@@ -38,8 +40,8 @@ public class BLUEfar extends LinearOpMode {
 
         leftDrive = hardwareMap.get(DcMotor.class, "motorleft");
         rightDrive = hardwareMap.get(DcMotor.class, "motorright");
-        // armDrive1 = hardwareMap.get(DcMotor.class, "armmotor1");
-        //armDrive2 = hardwareMap.get(DcMotor.class, "armmotor2");
+         armDrive1 = hardwareMap.get(DcMotor.class, "armmotor1");
+        armDrive2 = hardwareMap.get(DcMotor.class, "armmotor2");
         servotest = hardwareMap.get(Servo.class, "servotest");
         colorSensor = hardwareMap.get(ColorSensor.class, "colorsensor");
         backmotorleft = hardwareMap.get(DcMotor.class, "backmotorleft");
@@ -49,8 +51,8 @@ public class BLUEfar extends LinearOpMode {
 
         leftDrive.setDirection(DcMotor.Direction.FORWARD);
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
-        //armDrive2.setDirection(DcMotor.Direction.FORWARD);
-        //armDrive1.setDirection(DcMotor.Direction.FORWARD);
+        armDrive2.setDirection(DcMotor.Direction.FORWARD);
+        armDrive1.setDirection(DcMotor.Direction.FORWARD);
         backmotorleft.setDirection(Direction.REVERSE);
         backmotorright.setDirection(Direction.FORWARD);
 
@@ -94,64 +96,47 @@ public class BLUEfar extends LinearOpMode {
 
         backmotorleft.setPower(-.5);
         backmotorright.setPower(-.5);
-        sleep(300);
+        sleep(700);
 
-        setDriveSpeed(0, 0);
-        sleep(1000);
-
+        final double backpowerratio = 0.7;
         rightDrive.setPower(0.35);
-        leftDrive.setPower(0.35);// setBackSpeed(-.15, -.15);
-        //  backmotorleft.setPower(-.25);
-        // backmotorright.setPower(-.25);
+        leftDrive.setPower(0.35);
+        backmotorleft.setPower(0.35*backpowerratio);
+        backmotorright.setPower(.35*backpowerratio);
         sleep(1000);
 
 //        setDriveSpeed(0, 0);
         //      sleep(3000);
 
-        setDriveSpeed(-.25, -.25);
+        rightDrive.setPower(-0.25);
+        leftDrive.setPower(-0.25);
+        backmotorleft.setPower(-0.25*backpowerratio);
+        backmotorright.setPower(-.25*backpowerratio);
         sleep(400);
 
 
-        rightDrive.setPower(1);
-        leftDrive.setPower(-.1);
-        sleep(1251);
-
-
-        //setDriveSpeed(0, 0);
-        //sleep(500);
-
-        // setDriveSpeed(-.3,.3);
-        //  sleep(200);
-
-        // setDriveSpeed(0, 0);
-        // sleep(1000);
-
-        // setDriveSpeed(.5,-.5);
-        // sleep(300);
+        rightDrive.setPower(-.75);
+        leftDrive.setPower(.25);
+        sleep(1800);
 
 
 
+        setDriveSpeed(.2, .2);
+              sleep(800);
 
-
-
-
-
-
-
-
-        /*
-
-        setDriveSpeed(-.5, -.5);
-        sleep(1400);
-
-        setDriveSpeed(0, 0);
-        sleep(2000);
-
-
-        setDriveSpeed(0, 0);
+              setDriveSpeed(0, 0);
         sleep(1000);
-*/
 
+        armDrive1.setPower(-0.8);
+        armDrive2.setPower(-0.8);
+        sleep(1000);
+
+
+        setDriveSpeed(.25, .25);
+        sleep(800);
+
+        setDriveSpeed(-0.5,-0.5);
+        sleep(100);
 
         telemetry.addData("Red  ", colorSensor.red());
         telemetry.addData("Green", colorSensor.green());

@@ -31,6 +31,8 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import android.widget.Button;
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -42,16 +44,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 /**
- * This file  an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
- * the autonomous ocontainsr the teleop period of an FTC match. The names of OpModes appear on the menu
- * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Robot Controller and executed.
- *
+ * Created by GM on 11/1/2017.
+ * Program name : Teleop 2 Drivers progra
+ * Purpose :
  * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
- * It includes all the skeletal structure that all linear OpModes contain.
+ * It includes all the code for picking and dispensing .
  *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
 
@@ -69,7 +67,7 @@ public class Teleop2drivers extends LinearOpMode {
     private Servo servoTest;
     private DcMotor backmotorleft=null;
     private DcMotor backmotorright=null;
-    //TouchSensor tsensor;
+    //private TouchSensor tsensor;
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
@@ -87,7 +85,7 @@ public class Teleop2drivers extends LinearOpMode {
         armDrive4=hardwareMap.get(DcMotor.class, "armmotor4");
         backmotorleft=hardwareMap.get(DcMotor.class,"backmotorleft");
         backmotorright=hardwareMap.get(DcMotor.class, "backmotorright");
-        //tsensor = hardwareMap.get(TouchSensor.class, "sensor_touch");
+       // tsensor = hardwareMap.get(TouchSensor.class, "sensor_touch");
         int counter = 0;
 
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -99,6 +97,18 @@ public class Teleop2drivers extends LinearOpMode {
         armDrive4.setDirection(DcMotor.Direction.FORWARD);
         backmotorright.setDirection(DcMotor.Direction.FORWARD);
         backmotorleft.setDirection(DcMotor.Direction.REVERSE);
+
+        //determine the zeropowerbehavior
+        boolean brake=true;
+        DcMotor.ZeroPowerBehavior zeroPowerBehavior;
+        if(brake) {
+            zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE;
+        } else {
+            zeroPowerBehavior = DcMotor.ZeroPowerBehavior.FLOAT;
+        }
+
+
+
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
@@ -117,10 +127,12 @@ public class Teleop2drivers extends LinearOpMode {
             // - This uses basic math to combine motions and is easier to drive straight.
             double drive = -gamepad1.left_stick_y;
             double turn  =  gamepad1.right_stick_x;
+     
             leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-            rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
+            rightPower   = Range.clip(drive - turn, -1.0, 1.0);
 
-            // Tank aMode uses one stick to control each wheel.
+
+             // Tank aMode uses one stick to control each wheel.
             //- This requires no math, but it is hard to drive forward slowly and keep straight.
             // leftPower  = -gamepad1.left_stick_y ;
             //rightPower = -gamepad1.right_stick_y ;
@@ -163,29 +175,22 @@ public class Teleop2drivers extends LinearOpMode {
                 backmotorright.setPower(0);
             }
 
-            //if (tsensor.isPressed())
-              //  armDrive3.setPower(.7);
-                //armDrive4.setPower(-.7);
-               // sleep(200);
+           // boolean touchpressed=false;
+           // touchpressed=tsensor.isPressed();
+           // if (tsensor.isPressed(){
+            //    armDrive3.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+             //   armDrive4.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            // gamepad2.y=brake;
+           // }
 
 
-            //   if(gamepad1.x) {
-            //move to 0 degrees.
-            //     servoTest.setPosition(0);
-            ///} else if (gamepad1.a) {
-            //move to 90 degrees.
-            // servoTest.setPosition(0.5);
-            //} else if (gamepad1.b) {
-            //move to 180 degrees.
-            //   servoTest.setPosition(1);
-            //}
+
 
 
             // Send calculated power to wheels
             leftDrive.setPower(leftPower);
             rightDrive.setPower(rightPower);
-
-            // Show the elapsed game time and wheel power.
+              // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
             telemetry.update();

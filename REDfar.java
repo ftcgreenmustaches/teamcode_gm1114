@@ -10,7 +10,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 /**
- * Created by aparikh1 on 11/1/2017.
+ * Created by GM on 11/1/2017.
+ * Program name : Red Far
+ * Purpose : This Autonomous program is from Red Far
  */
 
 @Autonomous(name="REDfar1", group="Linear Opmode")
@@ -23,8 +25,8 @@ public class REDfar extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
-    //private DcMotor armDrive1 = null;
-    //private DcMotor armDrive2 = null;
+    private DcMotor armDrive1 = null;
+    private DcMotor armDrive2 = null;
     private Servo servotest;
     private ColorSensor colorSensor=null;
     private DcMotor backmotorleft=null;
@@ -38,8 +40,8 @@ public class REDfar extends LinearOpMode {
 
         leftDrive = hardwareMap.get(DcMotor.class, "motorleft");
         rightDrive = hardwareMap.get(DcMotor.class, "motorright");
-        // armDrive1 = hardwareMap.get(DcMotor.class, "armmotor1");
-        //armDrive2 = hardwareMap.get(DcMotor.class, "armmotor2");
+         armDrive1 = hardwareMap.get(DcMotor.class, "armmotor1");
+        armDrive2 = hardwareMap.get(DcMotor.class, "armmotor2");
         servotest = hardwareMap.get(Servo.class, "servotest");
         colorSensor = hardwareMap.get(ColorSensor.class, "colorsensor");
         backmotorleft = hardwareMap.get(DcMotor.class, "backmotorleft");
@@ -49,9 +51,9 @@ public class REDfar extends LinearOpMode {
 
         leftDrive.setDirection(DcMotor.Direction.FORWARD);
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
-        //armDrive2.setDirection(DcMotor.Direction.FORWARD);
-        //armDrive1.setDirection(DcMotor.Direction.FORWARD);
-        backmotorleft.setDirection(Direction.REVERSE);
+        armDrive2.setDirection(DcMotor.Direction.FORWARD);
+        armDrive1.setDirection(DcMotor.Direction.FORWARD);
+        backmotorleft.setDirection(Direction.REVERSE );
         backmotorright.setDirection(Direction.FORWARD);
 
 
@@ -100,57 +102,41 @@ public class REDfar extends LinearOpMode {
 
         setDriveSpeed(0, 0);
         sleep(1000);
-
+        final double backpowerratio = 0.7;
         rightDrive.setPower(-0.35);
-        leftDrive.setPower(-0.35);// setBackSpeed(-.15, -.15);
-      //  backmotorleft.setPower(-.25);
-       // backmotorright.setPower(-.25);
+        leftDrive.setPower(-0.35);
+       backmotorleft.setPower(-0.35*backpowerratio);
+        backmotorright.setPower(-.35*backpowerratio);
         sleep(1000);
 
 //        setDriveSpeed(0, 0);
   //      sleep(3000);
 
-         setDriveSpeed(.25, .25);
-         sleep(400);
+
+        rightDrive.setPower(0.4);
+        leftDrive.setPower(0.4);
+        backmotorleft.setPower(.4*backpowerratio);
+        backmotorright.setPower(.4*backpowerratio);
+        sleep(300);
+
+//        setDriveSpeed(.5, .5);
+  //       sleep(1500);
 
 
-        rightDrive.setPower(1);
-        leftDrive.setPower(-.25);
-       sleep(301);
-        //setDriveSpeed(0, 0);
-        //sleep(500);
+        rightDrive.setPower(.75);
+        leftDrive.setPower(-.15);
+       sleep(201);
 
-        // setDriveSpeed(-.3,.3);
-        //  sleep(200);
-
-       // setDriveSpeed(0, 0);
-       // sleep(1000);
-
-       // setDriveSpeed(.5,-.5);
-       // sleep(300);
-
-
-
-
-
-
-
-
-
-
-
-        /*
-
-        setDriveSpeed(-.5, -.5);
-        sleep(1400);
-
-        setDriveSpeed(0, 0);
-        sleep(2000);
-
-
-        setDriveSpeed(0, 0);
+        armDrive1.setPower(-0.8);
+        armDrive2.setPower(-0.8);
         sleep(1000);
-*/
+
+               setDriveSpeed(0, 0);
+               sleep(1000);
+
+        setDriveSpeed(-0.5,-0.5);
+        sleep(100);
+
 
 
         telemetry.addData("Red  ", colorSensor.red());
